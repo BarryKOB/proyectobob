@@ -33,7 +33,7 @@ function Login() {
       </main>
 
       <footer>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="secondary">
           © 2024 Barry Osagie Batista
         </Typography>
       </footer>
