@@ -1,42 +1,84 @@
 import React from 'react';
-import { Typography, Container, Button } from '@mui/material';
+import { Typography, Container, Button,Paper,Box, TextField,IconButton } from '@mui/material';
+import { useState } from 'react'
+import Grid from '@mui/material/Grid2'
+import LockIcon from '@mui/icons-material/Lock';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 
 function Login() {
+  const [data, setData] = useState({usuario:'', contraseña:'',corresponden:0})
+  const bduser = 'Barry'
+  const bdpasswd = 'BarryActividad'
+
+  const handleSubmit = (e:any) => {
+    e.preventDefault();  
+    if(data.usuario === bduser && data.contraseña === bdpasswd) {
+      setData({ ...data, corresponden: 1 });
+      console.log("Usuario: "+ data.usuario+ ", Contraseña: "+data.contraseña)
+    }else {
+      setData({ ...data, corresponden: 2 });
+      console.log("Usuario: "+ data.usuario+ ", Contraseña: "+data.contraseña)
+    }
+  }
+
+  const handleChangeUser = (e:any) =>{
+    setData({
+      ...data,
+      usuario: e.target.value
+    })
+  }
+
+  const handleChangePassword = (e:any) =>{
+    setData({
+      ...data,
+      contraseña: e.target.value
+    })
+  }
   return (
-    <Container>
-      <header>
-        <Typography variant="h1" color="primary">
-          Página de Barry Osagie Batista
-        </Typography>
-      </header>
-
-      <main>
-        <Typography variant="h2" color="secondary">
-          Página de Barry Osagie Batista
-        </Typography>
-        <Typography variant="h3" color="error">
-          Página de Barry Osagie Batista
-        </Typography>
-        <Typography variant="subtitle1" color="success">
-          Página de Barry Osagie Batista
-        </Typography>
-        <Typography variant="body1" color="text.primary">
-          Página de Barry Osagie Batista
-        </Typography>
-        <Typography variant="caption" color="primary">
-          Página de Barry Osagie Batista
-        </Typography>
-
-        <Button variant="text" color="primary">Text Button</Button>
-        <Button variant="contained" color="secondary">Contained Button</Button>
-        <Button variant="outlined" color="error">Outlined Button</Button>
-      </main>
-
-      <footer>
-        <Typography variant="body2" color="secondary">
-          © 2024 Barry Osagie Batista
-        </Typography>
-      </footer>
+    <Container sx={{marginTop: "30px"}}>
+      <Paper elevation={3} square={true} sx={{textAlign:'center', padding:"7px"}}>
+        <Typography variant='h5'>Systema de acceso</Typography>
+        <IconButton>
+          <LockIcon/>
+        </IconButton>
+        <Box
+          component = 'form'
+          onSubmit={handleSubmit}
+          >
+          <Grid container spacing={2}>
+            <Grid size={{xs:12, sm:12, md:12}}>
+              <TextField
+                required
+                label = "Usuario"
+                variant='outlined'
+                fullWidth
+                value= {data.usuario}
+                onChange={handleChangeUser}
+              />
+            </Grid>
+            <Grid size={{xs:12, sm:12, md:12}}>
+              <TextField
+                required
+                label = "Contraseña"
+                variant='outlined'
+                fullWidth
+                value= {data.contraseña}
+                type='password'
+                onChange={handleChangePassword}
+              />
+            </Grid>
+          </Grid>
+          <Button sx={{padding:"10px",marginTop:"10px"}} /*onClick={mostrar}*/ variant='contained' fullWidth type='submit' >Acceder</Button>
+          {data.corresponden !== 0 && (
+            data.corresponden === 1 ? (
+            <Alert severity="success">Acesso concedido</Alert>
+            ) : (
+            <Alert severity="error">Usuario y/o contraseña incorrecta</Alert>
+            )
+          )}
+        </Box>
+      </Paper>
     </Container>
   );
 }
