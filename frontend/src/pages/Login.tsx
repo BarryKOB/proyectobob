@@ -5,17 +5,20 @@ import Grid from '@mui/material/Grid2'
 import LockIcon from '@mui/icons-material/Lock';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const [data, setData] = useState({usuario:'', contraseña:'',corresponden:0})
   const bduser = 'Barry'
   const bdpasswd = 'BarryActividad'
+  const navigate = useNavigate()
 
   const handleSubmit = (e:any) => {
     e.preventDefault();  
     if(data.usuario === bduser && data.contraseña === bdpasswd) {
       setData({ ...data, corresponden: 1 });
       console.log("Usuario: "+ data.usuario+ ", Contraseña: "+data.contraseña)
+      navigate("/Homes")
     }else {
       setData({ ...data, corresponden: 2 });
       console.log("Usuario: "+ data.usuario+ ", Contraseña: "+data.contraseña)
