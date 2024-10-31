@@ -6,19 +6,26 @@ import LockIcon from '@mui/icons-material/Lock';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { authActions } from '../store/authSlice';
 
 function Login() {
   const [data, setData] = useState({usuario:'', contraseña:'',corresponden:0})
   const bduser = 'Barry'
   const bdpasswd = 'BarryActividad'
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleSubmit = (e:any) => {
     e.preventDefault();  
     if(data.usuario === bduser && data.contraseña === bdpasswd) {
       setData({ ...data, corresponden: 1 });
       console.log("Usuario: "+ data.usuario+ ", Contraseña: "+data.contraseña)
-      navigate("/Homes")
+      navigate("/Home")
+      dispatch(authActions.login( {
+        nombreUsuario: data.usuario,
+        rol: 'administrador'
+      }))
     }else {
       setData({ ...data, corresponden: 2 });
       console.log("Usuario: "+ data.usuario+ ", Contraseña: "+data.contraseña)

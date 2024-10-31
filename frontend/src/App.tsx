@@ -5,6 +5,7 @@ import Reports from './pages/Reports'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import ErrorPage from "./pages/ErrorPage";
 
+
 const router = createBrowserRouter([
   {
     path: '/',
