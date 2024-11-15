@@ -8,28 +8,30 @@ import CheckIcon from '@mui/icons-material/Check';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store/authSlice';
+import Menu from '../components/Menu';
 
 function Login() {
   const [data, setData] = useState({usuario:'', contraseña:'',corresponden:0})
-  const bduser = 'Barry'
-  const bdpasswd = 'BarryActividad'
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const handleSubmit = (e:any) => {
     e.preventDefault();  
-    if(data.usuario === bduser && data.contraseña === bdpasswd) {
-      setData({ ...data, corresponden: 1 });
-      console.log("Usuario: "+ data.usuario+ ", Contraseña: "+data.contraseña)
-      navigate("/Home")
-      dispatch(authActions.login( {
-        nombreUsuario: data.usuario,
-        rol: 'administrador'
-      }))
-    }else {
-      setData({ ...data, corresponden: 2 });
-      console.log("Usuario: "+ data.usuario+ ", Contraseña: "+data.contraseña)
-    }
+    fetch(`http://localhost:3030/login?user=${data.usuario}&password=${data.contraseña}`)
+      .then(response => response.json())
+      .then (response => {
+        console.log("Lo que nos llega de la base de datos: ")
+        console.log(response.data)
+        if(response.data.length !== 0) {
+          dispatch(authActions.login( {
+            nombreUsuario: data.usuario,
+            rol: 'administrador'
+          }))
+          navigate("/Home")
+        }else {
+          console.log("usuario/contraseña son incorrectas ")
+        }
+      })
   }
 
   const handleChangeUser = (e:any) =>{
@@ -46,7 +48,9 @@ function Login() {
     })
   }
   return (
-    <Container sx={{marginTop: "30px"}}>
+    <>
+      <Menu/>
+      <Container sx={{marginTop: "30px"}}>
       <Paper elevation={3} square={true} sx={{textAlign:'center', padding:"7px"}}>
         <Typography variant='h5'>Systema de acceso</Typography>
         <IconButton>
@@ -90,6 +94,7 @@ function Login() {
         </Box>
       </Paper>
     </Container>
+    </>
   );
 }
 
