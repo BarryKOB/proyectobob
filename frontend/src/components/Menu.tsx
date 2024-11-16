@@ -71,7 +71,7 @@ export default function Menu() {
                 </ListItemButton>
               </ListItem>
           </Link>
-          <Link to={'/ayuda'} style={{textDecoration:'none',color:'black'}}>
+          <Link to={'/Home'} style={{textDecoration:'none',color:'black'}}>
             <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
