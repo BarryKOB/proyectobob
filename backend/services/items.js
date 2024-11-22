@@ -10,7 +10,6 @@ async function insertData (req, res) {
  const result = await db.query(query,values)
  return result.affectedRows
 }
-
 async function getData (req, res) {
     const rows = await db.query(
     `Select * from coleccion`
