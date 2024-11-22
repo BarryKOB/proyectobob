@@ -15,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import { RootState } from '../store/index';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -32,6 +33,7 @@ export default function Menu() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const logeado = userData.Autenticado
+
     // usamos el useEffect para cuando no este autencticado no pueda ir ni al home ni a reports
     useEffect(() => {
       if(!logeado) {
@@ -47,7 +49,8 @@ export default function Menu() {
       dispatch(authActions.logout())
       navigate('/')
     };
-
+    
+    // si el rol es admin no dejamos ver la pagina de informes
     const DrawerList = (
       <Box sx={{ width: 250}} role="presentation" onClick={toggleDrawer(false)}>
         <List>
@@ -61,16 +64,18 @@ export default function Menu() {
                 </ListItemButton>
               </ListItem>
           </Link>
-          <Link to={'/Reports'} style={{textDecoration:'none',color:'black'}}>
-            <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <SummarizeIcon/>
-                  </ListItemIcon>
-                  <ListItemText primary='Informes' />
-                </ListItemButton>
-              </ListItem>
-          </Link>
+          {(userData.Rol === 'admin') && (
+              <Link to={'/Reports'} style={{textDecoration:'none',color:'black'}}>
+              <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <SummarizeIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary='Informes' />
+                  </ListItemButton>
+                </ListItem>
+            </Link>
+          )}
           <Link to={'/Home'} style={{textDecoration:'none',color:'black'}}>
             <ListItem disablePadding>
                 <ListItemButton>
@@ -110,12 +115,19 @@ export default function Menu() {
                 {DrawerList}
             </Drawer>
             </IconButton>
-            <IconButton sx={{color:"white", flexGrow:1}} onClick={handleClick}>{userData.nombreUsuario}</IconButton>
-            <IconButton color='inherit'>
-              <AccountCircle/>
-            </IconButton>
+            <IconButton sx={{color:"white", flexGrow:1}}>{userData.nombreUsuario}</IconButton>
+            {(userData.Rol === 'admin') ? (
+              <IconButton color='inherit'>
+                <AdminPanelSettingsIcon/>
+              </IconButton>
+            ) : (
+              <IconButton color='inherit'>
+                <AccountCircle/>
+              </IconButton>
+            )}
             </Toolbar>
         </AppBar>
       </Box>
     );
+    // cambiar el icono si es admin o si no lo es
   }

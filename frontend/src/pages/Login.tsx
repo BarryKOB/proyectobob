@@ -25,11 +25,11 @@ function Login() {
         if(response.data.length !== 0) {
           dispatch(authActions.login( {
             nombreUsuario: data.usuario,
-            rol: 'administrador'
+            rol: response.data.rol
           }))
           navigate("/Home")
         }else {
-          console.log("usuario/contraseña son incorrectas ")
+          alert("usuario/contraseña son incorrectas ")
         }
       })
   }
@@ -49,10 +49,9 @@ function Login() {
   }
   return (
     <>
-      <Menu/>
       <Container sx={{marginTop: "30px"}}>
       <Paper elevation={3} square={true} sx={{textAlign:'center', padding:"7px"}}>
-        <Typography variant='h5'>Systema de acceso</Typography>
+        <Typography variant='h5'>Sistema de acceso</Typography>
         <IconButton>
           <LockIcon/>
         </IconButton>

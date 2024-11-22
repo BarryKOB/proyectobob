@@ -16,6 +16,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/index';
 
 function Dahsboard() {
   interface itemtype {
@@ -36,6 +38,7 @@ function Dahsboard() {
 
   const [item, setItem] = useState(itemInitialState)
   const [tableData, setTableData] = useState([])
+  const userData = useSelector((state: RootState) => state.authenticator)
 
   const handleSubmit = (e:any) => {
     e.preventDefault();  
@@ -44,6 +47,7 @@ function Dahsboard() {
       .then (response => {
         if(response > 0) {
           alert("Datos guardados con exito")
+          setItem(itemInitialState) // poner todos los valores al estado inicial
           fetchItems()
         }else {
           alert("Los datos no se han guardado")
@@ -94,6 +98,7 @@ function Dahsboard() {
   }
 
   
+  
   const handleDeleteItem = (item: itemtype) => {
     fetch(`http://localhost:3030/deleteItem?id=${item.id}`)
       .then(response => response.json())
@@ -114,6 +119,7 @@ function Dahsboard() {
   
 
   return (
+    // si el rol es admin mostramos el boton de borrar y viceversa
     <>
     <Container sx={{marginBottom: "70px"}}>
       <Paper elevation={3} square={true} sx={{textAlign:'center', marginTop:"20px"}}>
@@ -171,7 +177,7 @@ function Dahsboard() {
         </Grid>
         </Box>
       </Paper>
-
+    
     <TableContainer component={Paper} sx={{marginTop:"20px"}}>
       <Table sx={{ minWidth: 650 }} aria-label="Tabla Colecciones">
         <TableHead sx={{backgroundColor: "#0a2837"}}>
@@ -186,10 +192,12 @@ function Dahsboard() {
         <TableBody>
           {tableData.map((row: itemtype) => (
             <TableRow key={row.id}>
-              <TableCell>
-                <Button onClick={() => handleDeleteItem(row)}>
-                  <DeleteForeverIcon/>
-                </Button>
+              <TableCell> 
+                {(userData.Rol === 'admin') && (
+                  <Button onClick={() => handleDeleteItem(row)}>
+                    <DeleteForeverIcon/>
+                  </Button>
+                )}
               </TableCell>
               <TableCell component="th" scope="row">{row.nombre}</TableCell>
               <TableCell>{row.marca}</TableCell>
@@ -203,6 +211,7 @@ function Dahsboard() {
     </Container>
     </>
     );
+
 }
 
 export default Dahsboard;

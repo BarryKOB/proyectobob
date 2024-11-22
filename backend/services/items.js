@@ -1,7 +1,6 @@
 const db = require('./db')
 const helper = require('../helper')
 const config = require('../config')
-const { Select } = require('@mui/material')
 
 async function insertData (req, res) {
  const data = req.query
