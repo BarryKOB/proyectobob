@@ -25,6 +25,8 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import Tooltip from '@mui/material/Tooltip';
+import pdfFile from '../assets/Osagie_Batista_Barry_UT4A1.pdf';
 
 
 export default function Menu() {
@@ -58,7 +60,7 @@ export default function Menu() {
             <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <HomeIcon/>
+                      <HomeIcon/>
                   </ListItemIcon>
                   <ListItemText primary='Inicio' />
                 </ListItemButton>
@@ -76,7 +78,7 @@ export default function Menu() {
                 </ListItem>
             </Link>
           )}
-          <Link to={'/Home'} style={{textDecoration:'none',color:'black'}}>
+          <Link to={pdfFile} target='_blank' style={{textDecoration:'none',color:'black'}}>
             <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
@@ -102,28 +104,37 @@ export default function Menu() {
       <Box sx={{ flexGrow: 1}}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              onClick={toggleDrawer(true)}
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-            <MenuIcon />
+              <IconButton
+                onClick={toggleDrawer(true)}
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+              >
+              <Tooltip title="Menu Hamburguesa" arrow placement="bottom">
+                <MenuIcon />
+              </Tooltip>
             <Drawer open={open} onClose={toggleDrawer(false)}>
                 {DrawerList}
             </Drawer>
+
             </IconButton>
-            <IconButton sx={{color:"white", flexGrow:1}}>{userData.nombreUsuario}</IconButton>
+            <Tooltip title="Nombre" arrow placement="bottom">
+              <IconButton sx={{color:"white", flexGrow:1}}>{userData.nombreUsuario}</IconButton>
+            </Tooltip>
             {(userData.Rol === 'admin') ? (
-              <IconButton color='inherit'>
-                <AdminPanelSettingsIcon/>
-              </IconButton>
+              <Tooltip title="Icono admin" arrow placement="bottom">
+                <IconButton color='inherit'>
+                  <AdminPanelSettingsIcon/>
+                </IconButton>
+              </Tooltip>
             ) : (
+            <Tooltip title="Icono user" arrow placement="bottom">
               <IconButton color='inherit'>
                 <AccountCircle/>
               </IconButton>
+            </Tooltip>
             )}
             </Toolbar>
         </AppBar>

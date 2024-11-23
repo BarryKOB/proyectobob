@@ -18,6 +18,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/index';
+import Tooltip from '@mui/material/Tooltip';
 
 function Dahsboard() {
   interface itemtype {
@@ -171,7 +172,9 @@ function Dahsboard() {
           <Divider />
           <Grid container spacing={2} sx={{margin:"0 auto"}}>
             <Grid size={{xs:12, sm:12, md:12}}>
-                <Button id='but' type="submit" variant='outlined' fullWidth>+ INSERTAR DATOS</Button>
+              <Tooltip title="Insertar datos" arrow placement="bottom">
+                  <Button id='but' type="submit" variant='outlined' fullWidth>+ INSERTAR DATOS</Button>
+              </Tooltip>
             </Grid>
           </Grid>
         </Grid>
@@ -194,9 +197,11 @@ function Dahsboard() {
             <TableRow key={row.id}>
               <TableCell> 
                 {(userData.Rol === 'admin') && (
-                  <Button onClick={() => handleDeleteItem(row)}>
-                    <DeleteForeverIcon/>
-                  </Button>
+                  <Tooltip title="Borrar" arrow placement="bottom">
+                    <Button onClick={() => handleDeleteItem(row)}>
+                      <DeleteForeverIcon/>
+                    </Button>
+                  </Tooltip>
                 )}
               </TableCell>
               <TableCell component="th" scope="row">{row.nombre}</TableCell>

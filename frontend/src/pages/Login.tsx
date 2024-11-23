@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store/authSlice';
 import Menu from '../components/Menu';
+import Tooltip from '@mui/material/Tooltip';
 
 function Login() {
   const [data, setData] = useState({usuario:'', contraseña:'',corresponden:0})
@@ -52,9 +53,11 @@ function Login() {
       <Container sx={{marginTop: "30px"}}>
       <Paper elevation={3} square={true} sx={{textAlign:'center', padding:"7px"}}>
         <Typography variant='h5'>Sistema de acceso</Typography>
-        <IconButton>
-          <LockIcon/>
-        </IconButton>
+        <Tooltip title="Candado" arrow placement="bottom">
+          <IconButton>
+            <LockIcon/>
+          </IconButton>
+        </Tooltip>
         <Box
           component = 'form'
           onSubmit={handleSubmit}
@@ -82,7 +85,9 @@ function Login() {
               />
             </Grid>
           </Grid>
-          <Button sx={{padding:"10px",marginTop:"10px"}} /*onClick={mostrar}*/ variant='contained' fullWidth type='submit' >Acceder</Button>
+          <Tooltip title="Acceder" arrow placement="bottom">
+            <Button sx={{padding:"10px",marginTop:"10px"}} /*onClick={mostrar}*/ variant='contained' fullWidth type='submit' >Acceder</Button>
+          </Tooltip>
           {data.corresponden !== 0 && (
             data.corresponden === 1 ? (
             <Alert severity="success">Acesso concedido</Alert>
