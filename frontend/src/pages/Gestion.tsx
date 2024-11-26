@@ -1,4 +1,5 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
+import Menu from '../components/Menu';
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
@@ -6,8 +7,12 @@ import Grid from '@mui/material/Grid2'
 import TextField from '@mui/material/TextField'
 import Container from '@mui/material/Container'
 import Divider from '@mui/material/Divider';
-import { IconButton, Typography } from '@mui/material';
 import { useEffect } from 'react';
+
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../store/index';
+
+import { IconButton, Typography } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/Delete';
 
 import Table from '@mui/material/Table';
@@ -20,31 +25,31 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/index';
 import Tooltip from '@mui/material/Tooltip';
 
-function Dahsboard() {
+
+function Gestion() {
   interface itemtype {
     id?: number
     nombre: string
-    marca: string
-    tipo: string
-    precio: number
+    login: string
+    password: string
+    rol: string
   }
 
   const itemInitialState: itemtype = {
-    // id: 0,
     nombre: '',
-    marca: '',
-    tipo: '',
-    precio: (0)
+    login: '',
+    password: '',
+    rol: ''
   }
   
 
   const [item, setItem] = useState(itemInitialState)
   const [tableData, setTableData] = useState([])
-  const userData = useSelector((state: RootState) => state.authenticator)
+  // const userData = useSelector((state: RootState) => state.authenticator)
 
   const handleSubmit = (e:any) => {
     e.preventDefault();  
-    fetch(`http://localhost:3030/addItem?nombre=${item.nombre}&marca=${item.marca}&tipo=${item.tipo}&precio=${item.precio}`)
+    fetch(`http://localhost:3030/addItemU?nombre=${item.nombre}&login=${item.login}&password=${item.password}&rol=${item.rol}`)
       .then(response => response.json())
       .then (response => {
         if(response > 0) {
@@ -57,23 +62,9 @@ function Dahsboard() {
       })
   }
 
-  /*const handleSubmit2 = (e:any) => {
-    e.preventDefault();  
-    fetch(`http://localhost:3030/updateItem?nombre=${item.nombre}&marca=${item.marca}&tipo=${item.tipo}&precio=${item.precio}&id=${item.id}`)
-      .then(response => response.json())
-      .then (response => {
-        if(response > 0) {
-          alert("Datos modificados con exito")
-          setItem(itemInitialState) // poner todos los valores al estado inicial
-          fetchItems()
-        }else {
-          alert("Los datos no se han modificado")
-        }
-      })
-  }*/
 
   const fetchItems = () => {
-    fetch(`http://localhost:3030/getItems`)
+    fetch(`http://localhost:3030/getItemsU`)
       .then((response) => response.json())
       .then((response) => {
         setTableData(response.data);
@@ -93,59 +84,31 @@ function Dahsboard() {
     })
   }
 
-  const handleChangeMarca = (e:any) =>{
+  const handleChangeLogin = (e:any) =>{
     setItem({
       ...item,
-      marca: e.target.value
+      login: e.target.value
     })
   }
 
-  const handleChangeTipo = (e:any) =>{
+  const handleChangePassword = (e:any) =>{
     setItem({
       ...item,
-      tipo: e.target.value
+      password: e.target.value
     })
   }
 
-  const handleChangePrecio = (e:any) =>{
+  const handleChangeRol = (e:any) =>{
     setItem({
       ...item,
-      precio: e.target.value
+      rol: e.target.value
     })
   }
-
-  /*const handleChangeId = (e:any) =>{
-    setItem({
-      ...item,
-      id: e.target.value
-    })
-  }*/
-
-  
-  
-  const handleDeleteItem = (item: itemtype) => {
-    fetch(`http://localhost:3030/deleteItem?id=${item.id}`)
-      .then(response => response.json())
-      .then((response) => {
-        if (response > 0) {
-          alert("Elemento eliminado con éxito");
-          fetchItems()
-        } else {
-          alert("Error al eliminar el elemento");
-        }
-      })
-      .catch((error) => {
-        console.error("Error en la eliminación:", error);
-        alert("Error en la eliminación");
-      });
-  };
-  
-  
 
   return (
-    // si el rol es admin mostramos el boton de borrar y viceversa
     <>
-    <Container sx={{marginBottom: "70px"}}>
+      <Menu/>
+      <Container sx={{marginBottom: "70px"}}>
       <Paper elevation={3} square={true} sx={{textAlign:'center', marginTop:"20px"}}>
         <Box sx={{padding: "20px"}}
           component='form'
@@ -165,74 +128,63 @@ function Dahsboard() {
             <Grid size={{xs:6, sm:3, md:3}}>
               <TextField 
                   required
-                  label='Marca'
+                  label='Login'
                   variant='outlined'
                   fullWidth
-                  value= {item.marca}
-                  onChange={handleChangeMarca}
+                  value= {item.login}
+                  onChange={handleChangeLogin}
               />
             </Grid>
             <Grid size={{xs:6, sm:3, md:3}}>
               <TextField 
                   required
-                  label='Tipo'
+                  label='Password'
                   variant='outlined'
                   fullWidth
-                  value= {item.tipo}
-                  onChange={handleChangeTipo}
+                  value= {item.password}
+                  onChange={handleChangePassword}
               />
             </Grid>
             <Grid size={{xs:6, sm:3, md:3}}>
               <TextField 
                   required
-                  label='Precio'
+                  label='Rol'
                   variant='outlined'
                   fullWidth
-                  value= {item.precio}
-                  onChange={handleChangePrecio}
+                  value= {item.rol}
+                  onChange={handleChangeRol}
               />
             </Grid>
           <Divider />
           <Grid container spacing={2} sx={{margin:"0 auto"}}>
             <Grid size={{xs:12, sm:12, md:12}}>
-              {(userData.Rol === 'admin' || userData.Rol === 'user') && (
-              <Tooltip title="Insertar datos" arrow placement="bottom">
-                <Button id='but' type="submit" variant='outlined' fullWidth>+ INSERTAR DATOS</Button>
+              <Tooltip title="Insertar usuario" arrow placement="bottom">
+                  <Button id='but' type="submit" variant='outlined' fullWidth>+ INSERTAR USUARIO</Button>
               </Tooltip>
-              )} 
             </Grid>
           </Grid>
         </Grid>
         </Box>
       </Paper>
-    
-    <TableContainer component={Paper} sx={{marginTop:"20px"}}>
-      <Table sx={{ minWidth: 650 }} aria-label="Tabla Colecciones">
+      <TableContainer component={Paper} sx={{marginTop:"20px"}}>
+      <Table sx={{ minWidth: 650 }} aria-label="Tabla Usuarios">
         <TableHead sx={{backgroundColor: "#0a2837"}}>
           <TableRow>
             <TableCell></TableCell>
             <TableCell sx={{color:"white"}}>Nombre</TableCell>
-            <TableCell sx={{color:"white"}}>Marca</TableCell>
-            <TableCell sx={{color:"white"}}>Tipo</TableCell>
-            <TableCell sx={{color:"white"}}>Precio</TableCell>
+            <TableCell sx={{color:"white"}}>Login</TableCell>
+            <TableCell sx={{color:"white"}}>Password</TableCell>
+            <TableCell sx={{color:"white"}}>Rol</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {tableData.map((row: itemtype) => (
             <TableRow key={row.id}>
-              <TableCell> 
-                {(userData.Rol === 'admin') && (
-                  <Tooltip title="Borrar" arrow placement="bottom">
-                    <Button onClick={() => handleDeleteItem(row)}>
-                      <DeleteForeverIcon/>
-                    </Button>
-                  </Tooltip>
-                )}
-              </TableCell>
+              <TableCell></TableCell>
               <TableCell component="th" scope="row">{row.nombre}</TableCell>
-              <TableCell>{row.marca}</TableCell>
-              <TableCell>{row.tipo}</TableCell>
-              <TableCell>{row.precio}</TableCell>
+              <TableCell>{row.login}</TableCell>
+              <TableCell>{row.password}</TableCell>
+              <TableCell>{row.rol}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -240,8 +192,7 @@ function Dahsboard() {
     </TableContainer>
     </Container>
     </>
-    );
-
+  );
 }
 
-export default Dahsboard;
+export default Gestion;

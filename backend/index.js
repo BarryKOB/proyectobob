@@ -1,5 +1,5 @@
 // Importa las funciones de `services/index.js`
-const { getData, insertData, deleteData } = require('./services/items');
+const { getData, insertData, deleteData, insertDataU, getDataU} = require('./services/items');
 
 //importo el express y el cors
 const express = require('express')
@@ -69,6 +69,33 @@ app.get('/deleteItem',async function(req,res,next) {
         res.json(await deleteData(req))
     }catch(err) {
         console.error('Error while deleting items',err)
+        next(err);
+    }
+})
+
+app.get('/updateItem',async function(req,res,next) {
+    try {
+        res.json(await updateData(req))
+    }catch(err) {
+        console.error('Error while deleting items',err)
+        next(err);
+    }
+})
+
+app.get('/addItemU',async function(req,res,next) {
+    try {
+        res.json(await insertDataU(req))
+    }catch(err) {
+        console.error('Error while inserting items',err)
+        next(err);
+    }
+})
+
+app.get('/getItemsU',async function(req,res,next) {
+    try {
+        res.json(await getDataU(req))
+    }catch(err) {
+        console.error('Error while gettins items',err)
         next(err);
     }
 })

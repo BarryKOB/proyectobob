@@ -11,6 +11,7 @@ import { authActions } from '../store/authSlice';
 import Menu from '../components/Menu';
 import Tooltip from '@mui/material/Tooltip';
 
+
 function Login() {
   const [data, setData] = useState({usuario:'', contraseña:'',corresponden:0})
   const navigate = useNavigate()

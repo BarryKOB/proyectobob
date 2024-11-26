@@ -14,8 +14,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import { RootState } from '../store/index';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -27,6 +25,9 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import pdfFile from '../assets/Osagie_Batista_Barry_UT4A1.pdf';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AdbIcon from '@mui/icons-material/Adb';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 
 
 export default function Menu() {
@@ -74,6 +75,18 @@ export default function Menu() {
                       <SummarizeIcon/>
                     </ListItemIcon>
                     <ListItemText primary='Informes' />
+                  </ListItemButton>
+                </ListItem>
+            </Link>
+          )}
+          {(userData.Rol === 'admin') && (
+              <Link to={'/Gestion'} style={{textDecoration:'none',color:'black'}}>
+              <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <SummarizeIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary='Gestion Usuarios' />
                   </ListItemButton>
                 </ListItem>
             </Link>
@@ -129,10 +142,16 @@ export default function Menu() {
                   <AdminPanelSettingsIcon/>
                 </IconButton>
               </Tooltip>
+            ) : (userData.Rol === 'invitado') ? (
+              <Tooltip title="Icono user" arrow placement="bottom">
+              <IconButton color='inherit'>
+                <InsertEmoticonIcon/>
+              </IconButton>
+              </Tooltip>
             ) : (
             <Tooltip title="Icono user" arrow placement="bottom">
               <IconButton color='inherit'>
-                <AccountCircle/>
+                <AdbIcon/>
               </IconButton>
             </Tooltip>
             )}
