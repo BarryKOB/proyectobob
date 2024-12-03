@@ -10,9 +10,20 @@ async function insertData (req, res) {
  const result = await db.query(query,values)
  return result.affectedRows
 }
+
 async function getData (req, res) {
     const rows = await db.query(
     `Select * from coleccion`
+   )
+   const data = helper.emptyOrRows(rows)
+    return {
+        data
+    }
+}
+
+async function getDataP (req, res) {
+    const rows = await db.query(
+    `Select * from usuarios`
    )
    const data = helper.emptyOrRows(rows)
     return {
@@ -27,8 +38,6 @@ async function deleteData (req, res) {
     )
     return result.affectedRows
 }
-
-
 
 async function updateData (req, res) {
     const data = req.query
@@ -61,6 +70,7 @@ async function insertDataU (req, res) {
 module.exports = {
 getDataU,
 getData,
+getDataP,
 insertData,
 deleteData,
 insertDataU,

@@ -1,5 +1,5 @@
 // Importa las funciones de `services/index.js`
-const { getData, insertData, deleteData, insertDataU, getDataU} = require('./services/items');
+const { getData, insertData, deleteData, insertDataU, getDataU, getDataP} = require('./services/items');
 
 //importo el express y el cors
 const express = require('express')
@@ -94,6 +94,15 @@ app.get('/addItemU',async function(req,res,next) {
 app.get('/getItemsU',async function(req,res,next) {
     try {
         res.json(await getDataU(req))
+    }catch(err) {
+        console.error('Error while gettins items',err)
+        next(err);
+    }
+})
+
+app.get('/getItemsP',async function(req,res,next) {
+    try {
+        res.json(await getDataP(req))
     }catch(err) {
         console.error('Error while gettins items',err)
         next(err);
